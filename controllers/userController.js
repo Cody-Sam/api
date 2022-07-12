@@ -3,13 +3,21 @@ const bcrypt = require("bcryptjs");
 const asyncHandler = require("express-async-handler");
 const UserModel = require("../db/models/userModel");
 
+// @desc Return list of all users
+// @route get /api/v1/users
+// @access admin
+
+const usersIndex = asyncHandler(async (req, res) => {
+  res.send(await UserModel.find())
+})
+
 // @desc Register new user
 // @route post /api/v1/users
 // @access public
 
 const registerUser = asyncHandler(async (req, res) => {
-  const { name, email, password } = req.body;
-  if (!name || !email || !password) {
+  const { name, email, password, admin } = req.body;
+  if (!name || !email || !password || !admin) {
     res.status(400);
     throw new Error("Please add all fields");
   }
@@ -32,6 +40,7 @@ const registerUser = asyncHandler(async (req, res) => {
     name,
     email,
     password: hashedPassword,
+    admin
   });
 
   if (user) {
@@ -80,6 +89,33 @@ const getMe = asyncHandler(async (req, res) => {
     })
 });
 
+// @desc Update user
+// @route put /api/v1/users/
+// @access owner or admin
+
+const updateUser = asyncHandler(async (req, res) => {
+  res.status(201).send(
+    await UserModel.findByIdAndUpdate((req.user.admin ? (req.body._id || req.user.id) : req.user.id), req.body, {
+      returnDocument: 'after',
+    })
+  )
+})
+
+// @desc Delete user
+// @route delete /api/v1/users/
+// @access admin
+
+const deleteUser = asyncHandler(async (req, res) => {
+  try {
+    const { _id } = await UserModel.findByIdAndDelete(req.body)
+    res.status(201).json({ message: 'success' })
+  }
+  catch(err) {
+    console.log(err)
+    res.status(400).json({message: 'User not found'})
+  }
+})
+
 // Generate JWT
 
 const generateToken = (id) => {
@@ -89,7 +125,10 @@ const generateToken = (id) => {
 };
 
 module.exports = {
+  usersIndex,
   registerUser,
   loginUser,
   getMe,
+  updateUser,
+  deleteUser
 };

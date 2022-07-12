@@ -17,6 +17,10 @@ const UserModel = mongoose.model(
         type: String,
         required: [true, "Please add a password"],
       },
+      admin: {
+        type: Boolean,
+        required: true
+      }
     },
     {
       timestamps: true,
