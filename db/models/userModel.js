@@ -2,12 +2,26 @@ const mongoose = require("../connection");
 
 const UserModel = mongoose.model(
   "User",
-  new mongoose.Schema({
-    email: {
-      type: String,
-      required: true,
+  new mongoose.Schema(
+    {
+      name: {
+        type: String,
+        required: [true, "Please add a name"],
+      },
+      email: {
+        type: String,
+        required: [true, "Please add an email"],
+        unique: true,
+      },
+      password: {
+        type: String,
+        required: [true, "Please add a password"],
+      },
     },
-  })
+    {
+      timestamps: true,
+    }
+  )
 );
 
 module.exports = UserModel;
