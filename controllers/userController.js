@@ -89,6 +89,18 @@ const getMe = asyncHandler(async (req, res) => {
     })
 });
 
+// @desc Update user
+// @route put /api/v1/users/
+// @access owner or admin
+
+const updateUser = asyncHandler(async (req, res) => {
+  res.status(201).send(
+    await UserModel.findByIdAndUpdate((req.user.admin ? (req.body._id || req.user.id) : req.user.id), req.body, {
+      returnDocument: 'after',
+    })
+  )
+})
+
 // @desc Delete user
 // @route delete /api/v1/users/
 // @access admin
@@ -117,5 +129,6 @@ module.exports = {
   registerUser,
   loginUser,
   getMe,
+  updateUser,
   deleteUser
 };
