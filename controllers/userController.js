@@ -18,14 +18,14 @@ const usersIndex = asyncHandler(async (req, res) => {
 const registerUser = asyncHandler(async (req, res) => {
   const { name, email, password, admin } = req.body;
   if (!name || !email || !password || !admin) {
-    res.status(400);
+    res.status(400).json({message: "Please add all fields"});
     throw new Error("Please add all fields");
   }
 
   // Check if user exists
   const userExists = await UserModel.findOne({ email });
   if (userExists) {
-    res.status(400);
+    res.status(400).json({message: "User already exists"});
     throw new Error("User already exists");
   }
 
@@ -44,14 +44,15 @@ const registerUser = asyncHandler(async (req, res) => {
   });
 
   if (user) {
-    res.status(201).json({
+    res.status(201).json([{
       _id: user.id,
       name: user.name,
       email: user.email,
+    }, {
       token: generateToken(user._id),
-    });
+    }]);
   } else {
-    res.status(400);
+    res.status(400).json({ message: "Invalid user data" });
     throw new Error("Invalid user data");
   }
 });
@@ -64,14 +65,15 @@ const loginUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
   const user = await UserModel.findOne({ email });
   if (user && (await bcrypt.compare(password, user.password))) {
-    res.json({
+    res.json([{
       _id: user.id,
       name: user.name,
-      email: user.email,
-      token: generateToken(user._id),
-    });
+      email: user.email
+    }, {
+      token: generateToken(user._id)
+    }]);
   } else {
-    res.status(400);
+    res.status(400).json({ message: "Invalid email or password" });
     throw new Error("Invalid email or password");
   }
 });

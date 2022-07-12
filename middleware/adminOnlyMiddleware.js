@@ -22,17 +22,16 @@ const adminProtect = asyncHandler(async (req, res, next) => {
       if (req.user.admin) {
           next()
       } else {
-        res.status(401)
+        res.status(401), json({ message: "Not admin" });
         throw new Error('Not admin')
         }
     } catch (err) {
-      console.log(err);
-      res.status(401);
+      res.status(401).json({message: "not authorized"});
       throw new Error("Not authorized");
     }
   }
   if (!token) {
-    res.status(401);
+    res.status(401).json({message: "Not authorized, no token"});
     throw new Error("Not authorized, no token");
   }
 });
