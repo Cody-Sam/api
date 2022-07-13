@@ -11,9 +11,9 @@ const BuildModel = mongoose.model(
         // ^^ Allows a user to be associated with a build
       },
       ram: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: Array,
+        //Array of one or more product ID's
         required: true,
-        ref: "Product",
       },
       psu: {
         type: mongoose.Schema.Types.ObjectId,
@@ -31,9 +31,9 @@ const BuildModel = mongoose.model(
         ref: "Product",
       },
       ssd: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: Array,
+        // Array of one or more product ID's
         required: true,
-        ref: "Product",
       },
       case: {
         type: mongoose.Schema.Types.ObjectId,

@@ -21,6 +21,10 @@ const ProductModel = mongoose.model(
         type: String,
         required: true,
       },
+      quantity: {
+        type: number,
+        required: true
+      },
       compatability: {
         applicable: {
           type: Boolean,

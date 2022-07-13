@@ -1,41 +1,21 @@
 const express = require("express");
 const router = express.Router();
-const BuildModel = require("../db/models/buildModel");
+const {
+  buildIndex,
+  getBuild,
+  getMyBuilds,
+  createBuild,
+  updateBuild,
+  deleteBuild,
+} = require("../controllers/buildController");
+const { protect } = require("../middleware/authMiddleware");
+const { adminProtect } = require("../middleware/adminOnlyMiddleware");
 
-router.get("/", async (req, res) => {
-  res.send(await BuildModel.find());
-});
-
-router.get("/:id", (req, res) => {
-  BuildModel.findById(req.params.id, (err, doc) => {
-    if (err) {
-      res.status(404).send({ error: `Could not find entry: ${req.params.id}` });
-    } else {
-      res.send(doc);
-    }
-  });
-});
-
-router.post("/", (req, res) => {
-  BuildModel.create(req.body, (err, doc) => {
-    if (err) {
-      res.status(422).send({ error: err.message });
-    } else {
-      res.status(401).send(doc);
-    }
-  });
-});
-
-router.delete("/:id", (req, res) => {
-  BuildModel.findByIdAndDelete(req.params.id, () => res.sendStatus(204));
-});
-
-router.put("/:id", async (req, res) => {
-  res.send(
-    await BuildModel.findByIdAndUpdate(req.params.id, req.body, {
-      returnDocument: "after",
-    })
-  );
-});
+router.get("/", adminProtect, buildIndex);
+router.get("/me", protect, getMyBuilds);
+router.get("/:id", protect, getBuild);
+router.post("/", protect, createBuild);
+router.put("/:id", protect, updateBuild);
+router.delete("/:id", protect, deleteBuild);
 
 module.exports = router;
