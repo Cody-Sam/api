@@ -22,7 +22,7 @@ const ProductModel = mongoose.model(
         required: true,
       },
       quantity: {
-        type: number,
+        type: Number,
         required: true
       },
       compatability: {
