@@ -27,8 +27,8 @@ const getProduct = asyncHandler(async (req, res) => {
 // @access admin
 
 const createProduct = asyncHandler(async (req, res) => {
-  const { name, description, price, type, compatability } = req.body;
-  if (!name || !description || !price || !type || !quantity || !compatability) {
+  const { name, description, price, type, compatibility } = req.body;
+  if (!name || !description || !price || !type || !quantity || !compatibility) {
     res.status(400).json({ message: "Please add all fields" });
     throw new Error("Please add all fields");
   }
@@ -45,7 +45,7 @@ const createProduct = asyncHandler(async (req, res) => {
         type,
         price,
         quantity,
-        compatability,
+        compatibility: compatibility,
     })
 
       if (product) {
