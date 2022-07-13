@@ -25,7 +25,7 @@ const ProductModel = mongoose.model(
         type: Number,
         required: true
       },
-      compatability: {
+      compatibility: {
         applicable: {
           type: Boolean,
           required: true
