@@ -5,7 +5,9 @@ const BuildModel = require("../db/models/buildModel");
 // @route get /api/v1/builds
 // @access admin
 
-const buildIndex = asyncHandler(async (req, res) => {});
+const buildIndex = asyncHandler(async (req, res) => {
+    res.send(await BuildModel.find())
+});
 
 // @desc Return user's builds
 // @route get /api/v1/builds/me

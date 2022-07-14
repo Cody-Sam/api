@@ -6,8 +6,8 @@ const OrderModel = require("../db/models/orderModel");
 // @access admin
 
 const orderIndex = asyncHandler(async (req, res) => {
-
-})
+  res.send(await OrderModel.find());
+});
 
 // @desc Return single order
 // @route get /api/v1/orders/:id
@@ -34,9 +34,9 @@ const updateOrder = asyncHandler(async (req, res) => {});
 const deleteOrder = asyncHandler(async (req, res) => {});
 
 module.exports = {
-    orderIndex,
-    getOrder,
-    createOrder,
-    updateOrder,
-    deleteOrder
-}
+  orderIndex,
+  getOrder,
+  createOrder,
+  updateOrder,
+  deleteOrder,
+};
