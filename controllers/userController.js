@@ -17,7 +17,7 @@ const usersIndex = asyncHandler(async (req, res) => {
 
 const registerUser = asyncHandler(async (req, res) => {
   const { name, email, password, admin } = req.body;
-  if (!name || !email || !password || !admin) {
+  if (!name || !email || !password || (admin == undefined)) {
     res.status(400).json({ message: "Please add all fields" });
     throw new Error("Please add all fields");
   }
@@ -87,11 +87,12 @@ const loginUser = asyncHandler(async (req, res) => {
 // @access private
 
 const getMe = asyncHandler(async (req, res) => {
-  const { _id, name, email } = await UserModel.findById(req.user.id);
+  const { _id, name, email, admin, address } = await UserModel.findById(req.user.id);
   res.status(201).json({
     id: _id,
     name,
     email,
+    admin,
   });
 });
 
