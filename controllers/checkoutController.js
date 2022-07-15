@@ -23,8 +23,8 @@ const createCheckoutSession = asyncHandler(async (req, res) => {
           quantity: item.quantity,
         }
       }),
-      success_url: `${process.env.CLIENT_URL}/success.html`,
-      cancel_url: `${process.env.CLIENT_URL}/failure.html`,
+      success_url: `${process.env.CLIENT_URL}/cart/checkout/success`,
+      cancel_url: `${process.env.CLIENT_URL}/cart/checkout/failure`,
     })
     res.json({ url: session.url })
   }
