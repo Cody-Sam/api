@@ -1,6 +1,5 @@
 const asyncHandler = require("express-async-handler");
 const ProductModel = require("../db/models/productModel");
-const { productIndex } = require('./productController')
 const stripe = require('stripe')(process.env.STRIPE_PRIVATE)
 
 const createCheckoutSession = asyncHandler(async (req, res) => {
@@ -11,7 +10,6 @@ const createCheckoutSession = asyncHandler(async (req, res) => {
       mode: "payment",
       line_items: req.body.items.map(item => {
         const storeItem = storeItems.find(storeItem => storeItem._id.toString() === item._id)
-        console.log(storeItem)
         return {
           price_data: {
             currency: "aud",
