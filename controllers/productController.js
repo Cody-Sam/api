@@ -1,34 +1,34 @@
 const asyncHandler = require("express-async-handler");
-const ProductModel = require('../db/models/productModel');
+const ProductModel = require("../db/models/productModel");
+const cloudinary = require("../utils/cloudinary");
 
 // @desc Return list of all products
 // @route get /api/v1/products
 // @access public
 
 const productIndex = asyncHandler(async (req, res) => {
-    res.send(await ProductModel.find())
-})
+  res.send(await ProductModel.find());
+});
 
 // @desc Retrieve individual product
 // @route get /api/v1/products/:id
 // @access public
 
 const getProduct = asyncHandler(async (req, res) => {
-    try {
-        res.send(await ProductModel.findById(req.params.id))
-    }
-    catch (err) {
-        res.status(404).send({message: `${err}`})
-    }
-})
+  try {
+    res.send(await ProductModel.findById(req.params.id));
+  } catch (err) {
+    res.status(404).send({ message: `${err}` });
+  }
+});
 
 // @desc Create new product
 // @route post /api/v1/products
 // @access admin
 
 const createProduct = asyncHandler(async (req, res) => {
-  const { name, description, price, type, compatibility } = req.body;
-  if (!name || !description || !price || !type || !quantity || !compatibility) {
+  const { name, description, price, type, compatibility, image, quantity } = req.body;
+  if (!name || !description || !price || !type || !quantity) {
     res.status(400).json({ message: "Please add all fields" });
     throw new Error("Please add all fields");
   }
@@ -38,24 +38,29 @@ const createProduct = asyncHandler(async (req, res) => {
     res.status(400).json({ message: "Product already exists" });
     throw new Error("Product already exists");
   }
-    
-    const product = await ProductModel.create({
-        name,
-        description,
-        type,
-        price,
-        quantity,
-        compatibility: compatibility,
-    })
 
-      if (product) {
+  const uploadedImage = await cloudinary.uploader.upload(image, {
+    folder: "products",
+    width: 300,
+    crop: "scale",
+  });
+
+  const product = await ProductModel.create({
+    name,
+    description,
+    type,
+    price,
+    quantity,
+    compatibility: compatibility,
+    image: {
+      public_id: uploadedImage.public_id,
+      url: uploadedImage.secure_url
+    }
+  });
+
+  if (product) {
     res.status(201).json({
-      product: {
-        _id: product.id,
-        name: product.name,
-        price: product.price,
-        type: product.type,
-      }
+      url: `${process.env.CLIENT_URL}/shop/item/${product._id}`
     });
   } else {
     res.status(400).json({ message: "Invalid product data" });
@@ -69,11 +74,9 @@ const createProduct = asyncHandler(async (req, res) => {
 
 const updateProduct = asyncHandler(async (req, res) => {
   res.status(201).send(
-    await ProductModel.findByIdAndUpdate( req.body._id, req.body,
-      {
-        returnDocument: "after",
-      }
-    )
+    await ProductModel.findByIdAndUpdate(req.body._id, req.body, {
+      returnDocument: "after",
+    })
   );
 });
 
@@ -92,9 +95,9 @@ const deleteProduct = asyncHandler(async (req, res) => {
 });
 
 module.exports = {
-    productIndex,
-    getProduct,
-    createProduct,
-    updateProduct,
-    deleteProduct
-}
+  productIndex,
+  getProduct,
+  createProduct,
+  updateProduct,
+  deleteProduct,
+};

@@ -28,7 +28,7 @@ const ProductModel = mongoose.model(
       compatibility: {
         applicable: {
           type: Boolean,
-          required: true
+          // required: true
         },
         cpu: {
           type: String,
@@ -43,6 +43,16 @@ const ProductModel = mongoose.model(
           type: String
         }
       },
+      image: {
+        public_id: {
+          type: String,
+          // required: true
+        },
+        url: {
+          type: String,
+          // required: true
+        }
+      }
     },
     {
       timestamps: true,
