@@ -38,33 +38,39 @@ const createProduct = asyncHandler(async (req, res) => {
     res.status(400).json({ message: "Product already exists" });
     throw new Error("Product already exists");
   }
-
-  const uploadedImage = await cloudinary.uploader.upload(image, {
-    folder: "products",
-    width: 300,
-    crop: "scale",
-  });
-
-  const product = await ProductModel.create({
-    name,
-    description,
-    type,
-    price,
-    quantity,
-    compatibility: compatibility,
-    image: {
-      public_id: uploadedImage.public_id,
-      url: uploadedImage.secure_url
-    }
-  });
-
-  if (product) {
-    res.status(201).json({
-      url: `${process.env.CLIENT_URL}/shop/item/${product._id}`
+  
+  try {
+    const uploadedImage = await cloudinary.uploader.upload(image, {
+      folder: "products",
+      width: 300,
+      crop: "scale",
     });
-  } else {
-    res.status(400).json({ message: "Invalid product data" });
-    throw new Error("Invalid product data");
+
+    const product = await ProductModel.create({
+      name,
+      description,
+      type,
+      price,
+      quantity,
+      compatibility: compatibility,
+      image: {
+        public_id: uploadedImage.public_id,
+        url: uploadedImage.secure_url
+      }
+    });
+  
+
+    if (product) {
+      res.status(201).json({
+        url: `${process.env.CLIENT_URL}/shop/item/${product._id}`
+      });
+    } else {
+      res.status(400).json({ message: "Invalid product data" });
+      throw new Error("Invalid product data");
+    }
+  }
+  catch (err) {
+    res.status(400).json({error: err.message})
   }
 });
 
