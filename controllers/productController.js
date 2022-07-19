@@ -75,6 +75,7 @@ const createProduct = asyncHandler(async (req, res) => {
 const updateProduct = asyncHandler(async (req, res) => {
   res.status(201).send(
     await ProductModel.findByIdAndUpdate(req.body._id, req.body, {
+      runValidators: true,
       returnDocument: "after",
     })
   );

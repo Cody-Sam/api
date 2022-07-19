@@ -30,7 +30,7 @@ const BuildModel = mongoose.model(
         required: true,
         ref: "Product",
       },
-      ssd: {
+      storage: {
         type: Array,
         // Array of one or more product ID's
         required: true,
