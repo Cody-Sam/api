@@ -90,7 +90,7 @@ const loginUser = asyncHandler(async (req, res) => {
 // @access private
 
 const getMe = asyncHandler(async (req, res) => {
-  const { _id, name, email, admin, address } = await UserModel.findById(req.user.id);
+  const { _id, name, email, admin } = await UserModel.findById(req.user.id);
   res.status(201).json({
     id: _id,
     name,
@@ -104,15 +104,22 @@ const getMe = asyncHandler(async (req, res) => {
 // @access owner or admin
 
 const updateUser = asyncHandler(async (req, res) => {
-  res.status(201).send(
-    await UserModel.findByIdAndUpdate(
-      req.user.admin ? req.body._id || req.user.id : req.user.id,
-      req.body,
-      {
-        returnDocument: "after",
-      }
+  try {
+    res.status(201).send(
+      await UserModel.findByIdAndUpdate(
+        req.user.admin ? req.body._id || req.user.id : req.user.id,
+        req.body,
+        {
+          runValidators: true,
+          returnDocument: "after",
+        }
       )
-      );
+    );
+  } 
+  catch(err) {
+    const errors = handleErrors(err)
+    res.status(400).json(errors);
+  }
     });
     
     // @desc Delete user
@@ -137,7 +144,7 @@ const updateUser = asyncHandler(async (req, res) => {
         errors.email = "That email is already registered"
       }
       
-      if (err.message.includes("User validation failed")) {
+      if (err.message.includes("Validation failed")) {
         Object.values(err.errors).forEach(({properties}) => {
           errors[properties.path] = properties.message
         })

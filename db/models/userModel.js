@@ -8,6 +8,7 @@ const UserModel = mongoose.model(
       name: {
         type: String,
         required: [true, "Please add a name"],
+        minlength: [3, "Minimum name length is 2 characters"]
       },
       email: {
         type: String,

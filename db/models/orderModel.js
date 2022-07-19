@@ -4,22 +4,29 @@ const OrderModel = mongoose.model(
   "Order",
   new mongoose.Schema(
     {
-      user: {
-        type: mongoose.Schema.Types.ObjectId,
+      userId: {
+        type: String,
         required: true,
-        ref: "User",
       },
-      build: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Build",
-      },
-      products: {
-        type: Array
-        // Array of multiple product ID's
-      },
+      products: [
+        {
+          _id: { type: String },
+          name: {type: String},
+          price: {type: Number},
+          quantity: { type: Number },
+        },
+      ],
+      // subtotal: {
+      //   type: Number,
+      //   required: true,
+      // },
       total: {
         type: Number,
-        required: true
+        required: true,
+      },
+      address: {
+        type: Object,
+        // required: true
       }
     },
     {
