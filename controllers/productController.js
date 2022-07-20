@@ -96,6 +96,11 @@ const updateProduct = asyncHandler(async (req, res) => {
   );
 });
 
+const addReview = asyncHandler(async (req, res) => {
+  req.body.review.user = req.user.name
+  res.send(await ProductModel.findByIdAndUpdate(req.body._id, {$push: {reviews: req.body.review}}))
+})
+
 // @desc Delete product
 // @route delete /api/v1/products
 // @access admin
@@ -115,6 +120,7 @@ module.exports = {
   getProduct,
   createProduct,
   updateProduct,
+  addReview,
   deleteProduct,
   getWatchListProducts
 };

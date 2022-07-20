@@ -41,7 +41,15 @@ const ProductModel = mongoose.model(
           type: String,
           required: true
         }
-      }
+      },
+      reviews: [
+        {
+          user: { type: String },
+          comment: { type: String },
+          dateReviewed: {type: Date, default: Date.now},
+          stars: {type: Number, minlength: 1, maxlength: 5}
+        }
+      ]
     },
     {
       timestamps: true,
