@@ -88,7 +88,7 @@ const createProduct = asyncHandler(async (req, res) => {
 // @access admin
 
 const updateProduct = asyncHandler(async (req, res) => {
-  res.status(201).send(
+  res.status(200).send(
     await ProductModel.findByIdAndUpdate(req.body._id, req.body, {
       runValidators: true,
       returnDocument: "after",
