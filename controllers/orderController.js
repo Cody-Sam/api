@@ -44,11 +44,12 @@ const getPurchase = asyncHandler(async (req, res) => {
 // @route post /api/v1/orders
 // @access Logged in user
 
-// const createOrder = asyncHandler(async (req, res) => {});
 const createOrder = async (customer) => {
     const items = JSON.parse(customer.metadata.cart)
     items.forEach(async (item) => {
-        await ProductModel.findByIdAndUpdate(item._id, {"$inc": {"quantity": -item.quantity}})
+        await ProductModel.findByIdAndUpdate(item._id, {
+          $inc: { quantity: -item.quantity, sold: item.quantity },
+        });
     })
     let total
     items.forEach((item) => {

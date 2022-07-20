@@ -25,6 +25,10 @@ const ProductModel = mongoose.model(
         type: Number,
         required: true
       },
+      sold: {
+        type: Number,
+        default: 0
+      },
       compatibility: {
         type: Object
       },
