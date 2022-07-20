@@ -10,8 +10,9 @@ const apiV1Routes = require("./routes");
 app.use(express.json());
 
 const corsOptions = {
-    origin: "https://kaleidoscopic-taffy-d283a7.netlify.app"
-}
+  origin: "https://kaleidoscopic-taffy-d283a7.netlify.app",
+  credentials: true,
+};
 
 app.use(cors(corsOptions));
 
