@@ -8,7 +8,12 @@ app.use(bodyParser.urlencoded({ limit: "5mb", extended: true }));
 dotenv.config();
 const apiV1Routes = require("./routes");
 app.use(express.json());
-app.use(cors());
+
+const corsOptions = {
+    origin: "https://kaleidoscopic-taffy-d283a7.netlify.app"
+}
+
+app.use(cors(corsOptions``));
 
 
 app.get("/api/v1", (req, res) => res.send({ info: "Pc Builder API" }));
