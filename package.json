@@ -8,10 +8,10 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.4.4",
     "stripe": "^9.13.0",
+    "cors": "^2.8.5",
     "validator": "^13.7.0"
   },
   "devDependencies": {
-    "cors": "^2.8.5",
     "jest": "^28.1.2",
     "nodemon": "^2.0.19",
     "supertest": "^6.2.4"
