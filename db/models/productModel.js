@@ -25,6 +25,10 @@ const ProductModel = mongoose.model(
         type: Number,
         required: true
       },
+      sold: {
+        type: Number,
+        default: 0
+      },
       compatibility: {
         type: Object
       },
@@ -37,7 +41,15 @@ const ProductModel = mongoose.model(
           type: String,
           required: true
         }
-      }
+      },
+      reviews: [
+        {
+          user: { type: String },
+          comment: { type: String },
+          dateReviewed: {type: Date, default: Date.now},
+          stars: {type: Number, minlength: 1, maxlength: 5}
+        }
+      ]
     },
     {
       timestamps: true,

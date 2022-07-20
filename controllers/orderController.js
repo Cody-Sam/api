@@ -1,5 +1,6 @@
 const asyncHandler = require("express-async-handler");
 const OrderModel = require("../db/models/orderModel");
+const ProductModel = require("../db/models/productModel")
 
 // @desc Return list of all orders
 // @route get /api/v1/orders
@@ -17,9 +18,17 @@ const getOrder = asyncHandler(async (req, res) => {
     res.send(await OrderModel.find({_id: req.params.id}))
 })
 
+// @desc Return user's orders
+// @route get /api/v1/orders/me
+// @access owner of orders
+
 const getMyOrders = asyncHandler(async (req, res) => {
-  res.send(await OrderModel.find({ userId: req.user.id }));
+    res.send(await OrderModel.find({ userId: req.user.id }));
 });
+
+// @desc Return order after payment completed
+// @route get /api/v1/orders/purchase
+// @access owner of purchase
 
 const getPurchase = asyncHandler(async (req, res) => {
     try {
@@ -35,14 +44,18 @@ const getPurchase = asyncHandler(async (req, res) => {
 // @route post /api/v1/orders
 // @access Logged in user
 
-// const createOrder = asyncHandler(async (req, res) => {});
 const createOrder = async (customer) => {
     const items = JSON.parse(customer.metadata.cart)
+    items.forEach(async (item) => {
+        await ProductModel.findByIdAndUpdate(item._id, {
+          $inc: { quantity: -item.quantity, sold: item.quantity },
+        });
+    })
     let total
-    items.forEach(item => {
+    items.forEach((item) => {
         total = (item.quantity * item.price)
     })
-    const newOrder = new OrderModel({
+    const newOrder = await new OrderModel({
         userId: customer.metadata.userID,
         products: items,
         total: total
@@ -60,7 +73,14 @@ const createOrder = async (customer) => {
 // @route put /api/v1/orders/:id
 // @access admin
 
-const updateOrder = asyncHandler(async (req, res) => {});
+const updateOrder = asyncHandler(async (req, res) => {
+    // try {
+    //     res.status(201).send()
+    // }
+    // catch (err) {
+    //     console.error(err.message)
+    // }
+});
 
 // @desc Delete order
 // @route delete /api/v1/orders/:id
