@@ -26,31 +26,16 @@ const ProductModel = mongoose.model(
         required: true
       },
       compatibility: {
-        applicable: {
-          type: Boolean,
-          // required: true
-        },
-        cpu: {
-          type: String,
-        },
-        ram: {
-          type: String,
-        },
-        pci: {
-          type: String
-        },
-        m2: {
-          type: String
-        }
+        type: Object
       },
       image: {
         public_id: {
           type: String,
-          // required: true
+          required: true
         },
         url: {
           type: String,
-          // required: true
+          required: true
         }
       }
     },

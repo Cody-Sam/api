@@ -13,7 +13,13 @@ const orderIndex = asyncHandler(async (req, res) => {
 // @route get /api/v1/orders/:id
 // @access admin, owner of order
 
-const getOrder = asyncHandler(async (req, res) => { })
+const getOrder = asyncHandler(async (req, res) => {
+    res.send(await OrderModel.find({_id: req.params.id}))
+})
+
+const getMyOrders = asyncHandler(async (req, res) => {
+  res.send(await OrderModel.find({ userId: req.user.id }));
+});
 
 const getPurchase = asyncHandler(async (req, res) => {
     try {
@@ -63,10 +69,11 @@ const updateOrder = asyncHandler(async (req, res) => {});
 const deleteOrder = asyncHandler(async (req, res) => {});
 
 module.exports = {
-    orderIndex,
-    getOrder,
-    getPurchase,
-    createOrder,
-    updateOrder,
-    deleteOrder
-}
+  orderIndex,
+  getOrder,
+  getMyOrders,
+  getPurchase,
+  createOrder,
+  updateOrder,
+  deleteOrder,
+};
