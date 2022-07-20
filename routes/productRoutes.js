@@ -5,12 +5,14 @@ const {
   getProduct,
   createProduct,
   updateProduct,
-  deleteProduct
+  deleteProduct,
+  getWatchListProducts
 } = require("../controllers/productController");
 const { adminProtect } = require("../middleware/adminOnlyMiddleware");
 
 router.get("/", productIndex);
 router.get("/:id", getProduct);
+router.post("/watchlist", getWatchListProducts);
 router.post("/", adminProtect, createProduct);
 router.put("/", adminProtect, updateProduct);
 router.delete("/", adminProtect, deleteProduct);

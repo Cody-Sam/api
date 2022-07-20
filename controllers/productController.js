@@ -22,6 +22,15 @@ const getProduct = asyncHandler(async (req, res) => {
   }
 });
 
+const getWatchListProducts = asyncHandler(async (req, res) => {
+  console.log(req.body)
+    try {
+      res.send(await ProductModel.find().where('_id').in(req.body));
+    } catch (err) {
+      res.status(404).send({ message: `${err}` });
+    }
+})
+
 // @desc Create new product
 // @route post /api/v1/products
 // @access admin
@@ -107,4 +116,5 @@ module.exports = {
   createProduct,
   updateProduct,
   deleteProduct,
+  getWatchListProducts
 };
