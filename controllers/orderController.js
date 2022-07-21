@@ -15,7 +15,8 @@ const orderIndex = asyncHandler(async (req, res) => {
 // @access admin, owner of order
 
 const getOrder = asyncHandler(async (req, res) => {
-    res.send(await OrderModel.find({_id: req.params.id}))
+    const order = await OrderModel.find({_id: req.params.id})
+    res.send(order[0])
 })
 
 // @desc Return user's orders
