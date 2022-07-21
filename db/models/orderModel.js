@@ -11,8 +11,8 @@ const OrderModel = mongoose.model(
       products: [
         {
           _id: { type: String },
-          name: {type: String},
-          price: {type: Number},
+          name: { type: String },
+          price: { type: Number },
           quantity: { type: Number },
         },
       ],
@@ -24,10 +24,14 @@ const OrderModel = mongoose.model(
         type: Number,
         required: true,
       },
+      status: {
+        type: String,
+        required: true,
+      },
       address: {
         type: Object,
         // required: true
-      }
+      },
     },
     {
       timestamps: true,

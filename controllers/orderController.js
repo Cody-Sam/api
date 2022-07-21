@@ -58,7 +58,8 @@ const createOrder = async (customer) => {
     const newOrder = await new OrderModel({
         userId: customer.metadata.userID,
         products: items,
-        total: total
+        total: total,
+        status: "unfulfilled",
     })
 
     try {
