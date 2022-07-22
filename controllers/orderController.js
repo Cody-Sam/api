@@ -76,12 +76,12 @@ const createOrder = async (customer) => {
 // @access admin
 
 const updateOrder = asyncHandler(async (req, res) => {
-    // try {
-    //     res.status(201).send()
-    // }
-    // catch (err) {
-    //     console.error(err.message)
-    // }
+res.status(200).send(
+  await OrderModel.findByIdAndUpdate(req.body._id, req.body, {
+    runValidators: true,
+    returnDocument: "after",
+  })
+);
 });
 
 // @desc Delete order
