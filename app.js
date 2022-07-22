@@ -11,7 +11,7 @@ const apiV1Routes = require("./routes");
 app.use(express.json());
 
 
-app.get("/api/v1", (req, res) => res.send({ info: "Pc Builder API" }));
+app.get("/api/v1", (req, res) => res.send({ info: "Pc Builder 9001 API" }));
 
 app.use("/api/v1", apiV1Routes);
 

@@ -88,7 +88,15 @@ res.status(200).send(
 // @route delete /api/v1/orders/:id
 // @access admin
 
-const deleteOrder = asyncHandler(async (req, res) => {});
+const deleteOrder = asyncHandler(async (req, res) => {
+      try {
+        const { _id } = await OrderModel.findByIdAndDelete(req.body);
+        res.status(201).json({ message: "success" });
+      } catch (err) {
+        console.log(err);
+        res.status(400).json({ message: "Order not found" });
+      }
+});
 
 module.exports = {
   orderIndex,

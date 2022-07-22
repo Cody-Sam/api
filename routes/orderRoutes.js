@@ -18,6 +18,6 @@ router.get("/me", protect, getMyOrders);
 router.get("/:id", getOrder)
 router.post("/", protect, createOrder)
 router.put("/:id", adminProtect, updateOrder)
-router.delete("/:id", adminProtect, deleteOrder)
+router.delete("/", adminProtect, deleteOrder)
 
 module.exports = router;
