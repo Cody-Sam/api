@@ -3,7 +3,6 @@ const req = require("supertest");
 const mongoose = require("mongoose");
 const UserModel = require("./db/models/userModel");
 const ProductModel = require("./db/models/productModel");
-const { createOrder } = require("./controllers/orderController");
 const OrderModel = require("./db/models/orderModel");
 
 beforeAll((done) => {

@@ -4,6 +4,7 @@ const stripe = require("stripe")(process.env.STRIPE_PRIVATE);
 const {createOrder} = require('../controllers/orderController')
 
 const createCheckoutSession = asyncHandler(async (req, res) => {
+  console.log(req.body)
   try {
     const customer = await stripe.customers.create({
       metadata: {

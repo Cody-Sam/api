@@ -10,6 +10,10 @@ const productIndex = asyncHandler(async (req, res) => {
   res.send(await ProductModel.find());
 });
 
+const getBuildItems = asyncHandler(async (req, res) => {
+  res.send(await ProductModel.find({ _id: { $in: req.body.items } }))
+});
+
 // @desc Retrieve individual product
 // @route get /api/v1/products/:id
 // @access public
@@ -118,6 +122,7 @@ const deleteProduct = asyncHandler(async (req, res) => {
 module.exports = {
   productIndex,
   getProduct,
+  getBuildItems,
   createProduct,
   updateProduct,
   addReview,

@@ -3,6 +3,7 @@ const router = express.Router();
 const {
   productIndex,
   getProduct,
+  getBuildItems,
   createProduct,
   updateProduct,
   addReview,
@@ -14,6 +15,7 @@ const { adminProtect } = require("../middleware/adminOnlyMiddleware");
 
 router.get("/", productIndex);
 router.get("/:id", getProduct);
+router.post("/build", protect, getBuildItems);
 router.post("/review", protect, addReview);
 router.post("/watchlist", getWatchListProducts);
 router.post("/", adminProtect, createProduct);
